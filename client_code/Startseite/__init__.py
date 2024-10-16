@@ -11,7 +11,7 @@ class Startseite(StartseiteTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
-    self.jugendgerberge.items = anvil.server.call("get_jugendherbergen", "name, JID")
+    self.jugendgerberge.items = anvil.server.call("get_jugendherbergen", "name, J7ID")
     
     print(anvil.server.call('say_hello', "sauron"))
 
