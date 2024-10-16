@@ -4,6 +4,7 @@ unique_ids:
     theme.css: AJGOB5QTSL6FY2XA3CJNYIYBPZ7BTK3I
   forms:
     Startseite: WUKYFUSJLTDIQA7CFZWKLWDRCE5MRMJN
+    Startseite.RowTemplate1: '1729073614575181545006632.51193'
   modules: {}
   scripts: {}
   server_modules:
