@@ -1,7 +1,7 @@
 components:
 - components:
   - layout_properties: {grid_position: 'PONFAR,XSDNUA'}
-    name: jugendgerberge
+    name: Benutzer
     properties: {}
     type: DropDown
   - components:
