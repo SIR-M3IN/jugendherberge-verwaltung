@@ -12,19 +12,23 @@ class Startseite(StartseiteTemplate):
     self.Benutzer_DropDown.items = anvil.server.call('get_all_users')
     selected_user = self.Benutzer_DropDown.selected_value
     self.room_drop_down.items = anvil.server.call('get_zimmer_with_preisklasse', selected_user)
+    self.buchungen_drop_down.items = anvil.server.call('get_all_bookings')
   
   def Benutzer_DropDown_change(self, **event_args):
     selected_user = self.Benutzer_DropDown.selected_value
     self.room_drop_down.items = anvil.server.call('get_zimmer_with_preisklasse', selected_user)
 
-  def start_date_picker_change(self, **event_args):
-    """This method is called when the selected date changes"""
-    pass
-
-  def end_date_picker_change(self, **event_args):
-    """This method is called when the selected date changes"""
-    pass
-
   def button_1_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    pass
+    selected_user = self.Benutzer_DropDown.selected_value  
+    selected_room = self.room_drop_down.selected_value  
+    start_date = self.start_date_picker.date
+    end_date = self.end_date_picker.date
+    
+    if selected_user and selected_room and start_date and end_date:
+        result = anvil.server.call('add_booking', selected_room, selected_user, start_date, end_date)
+        alert(result)
+        self.buchungen_drop_down.items = anvil.server.call('get_all_bookings')
+    else:
+        alert("Bitte wählen Sie alle erforderlichen Felder aus.")
+
+

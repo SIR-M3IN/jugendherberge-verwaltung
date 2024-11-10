@@ -21,14 +21,11 @@ def say_hello(name):
 #     print(res)
 #     return res
 def get_all_users():
-    # Verbindung zur SQLite-Datenbank herstellen
     conn = sqlite3.connect(data_files['jugendherberge.db'])
     cursor = conn.cursor()
     
-    # Benutzer abfragen und Ergebnisse formatieren
     res = [(f"{row[0]} {row[1]}", row[2]) for row in cursor.execute("SELECT Vorname, Nachname, BenutzerID FROM Benutzer")]
     
-    # Verbindung schließen
     conn.close()
     
     return res
@@ -49,12 +46,23 @@ def get_zimmer_with_preisklasse(benutzer_id):
     result_strings = [f"Preisklasse: {row[0]}, Zimmernummer: {row[1]}" for row in res]
     print(result_strings)
     return result_strings
-
-
-    
-    # Ergebnis als formatierte Strings zurückgeben
     result_strings = [f"Preisklasse: {row[0]}, Zimmernummer: {row[1]}" for row in res]
     return "\n".join(result_strings)
+
+@anvil.server.callable
+def add_booking(zimmer_nummer, benutzer_id, startdatum, enddatum):
+    conn = sqlite3.connect(data_files['jugendherberge.db'])
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+    INSERT INTO Buchung (ZimmerNummer, BenutzerID, Startdatum, Enddatum)
+    VALUES (?, ?, ?, ?)
+    ''', (zimmer_nummer, benutzer_id, startdatum, enddatum))
+    
+    conn.commit()
+    conn.close()
+    print((zimmer_nummer, benutzer_id, startdatum, enddatum))
+    return "Buchung erfolgreich hinzugefügt."
 
 
 
@@ -69,14 +77,23 @@ def get_zimmer():
     
     return res
 
-
+  
 @anvil.server.callable
-def get_zimmer_jugendherberge():
-    conn = sqlite3.connect(data_files["jugendherbergen_verwaltung.db"])
-    cuursor = conn.cursor()
-    res = list(cuursor.execute('''
-    SELECT z.ZID, z.bettenanZahl, j.name
-    FROM zimmer z
-    JOIN jugendherbergen j ON z.herbergeFK = j.JID'''))
-
-    print(res)
+def get_all_bookings():
+    conn = sqlite3.connect(data_files['jugendherberge.db'])
+    cursor = conn.cursor()
+    
+    query = """
+    SELECT b.BuchungID, z.ZimmerNummer, u.Vorname, u.Nachname, b.Startdatum, b.Enddatum
+    FROM Buchung b
+    JOIN Zimmer z ON b.ZimmerNummer = z.ZimmerNummer
+    JOIN Benutzer u ON b.BenutzerID = u.BenutzerID
+    """
+    cursor.execute(query)
+    res = cursor.fetchall()
+    
+    conn.close()
+    
+    result_strings = [f"BuchungID: {row[0]}, Zimmer: {row[1]}, Name: {row[2]} {row[3]}, Startdatum: {row[4]}, Enddatum: {row[5]}" for row in res]
+    print(result_strings)
+    return result_strings
