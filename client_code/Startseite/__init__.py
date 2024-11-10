@@ -8,9 +8,11 @@ import anvil.server
 
 class Startseite(StartseiteTemplate):
   def __init__(self, **properties):
-    # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    # Any code you write here will run before the form opens.
-    self.Benutzer.items = "Merlin", "Jonas"
-    
-    # print(anvil.server.call('say_hello', "sauron"))
+    self.Benutzer_DropDown.items = anvil.server.call('get_all_users')
+    selected_user = self.Benutzer_DropDown.selected_value
+    self.room_drop_down.items = anvil.server.call('get_zimmer_with_preisklasse', selected_user)
+  
+  def Benutzer_DropDown_change(self, **event_args):
+    selected_user = self.Benutzer_DropDown.selected_value
+    self.room_drop_down.items = anvil.server.call('get_zimmer_with_preisklasse', selected_user)
