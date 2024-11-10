@@ -51,17 +51,18 @@ def get_zimmer_with_preisklasse(benutzer_id):
 
 @anvil.server.callable
 def add_booking(zimmer_nummer, benutzer_id, startdatum, enddatum):
+    print(data_files['jugendherberge.db'])
     conn = sqlite3.connect(data_files['jugendherberge.db'])
     cursor = conn.cursor()
-    
     cursor.execute('''
     INSERT INTO Buchung (ZimmerNummer, BenutzerID, Startdatum, Enddatum)
     VALUES (?, ?, ?, ?)
     ''', (zimmer_nummer, benutzer_id, startdatum, enddatum))
     
     conn.commit()
+    print("Print in der DataBase:", (zimmer_nummer, benutzer_id, startdatum, enddatum))
     conn.close()
-    print((zimmer_nummer, benutzer_id, startdatum, enddatum))
+    
     return "Buchung erfolgreich hinzugefügt."
 
 
@@ -97,3 +98,35 @@ def get_all_bookings():
     result_strings = [f"BuchungID: {row[0]}, Zimmer: {row[1]}, Name: {row[2]} {row[3]}, Startdatum: {row[4]}, Enddatum: {row[5]}" for row in res]
     print(result_strings)
     return result_strings
+  
+@anvil.server.callable
+def get_zimmer_by_jugendherberge(jugendherberge_id):
+    conn = sqlite3.connect(data_files['jugendherberge.db'])
+    cursor = conn.cursor()
+    
+    query = """
+    SELECT z.ZimmerNummer, pk.KategorieName
+    FROM Zimmer z
+    JOIN PreisKategorie pk ON z.PreisKategorieID = pk.PreisKategorieID
+    WHERE z.JugendherbergeID = ?
+    """
+    cursor.execute(query, (jugendherberge_id,))
+    res = cursor.fetchall()
+    
+    conn.close()
+    
+    result_strings = [f"Zimmernummer: {row[0]}, Preisklasse: {row[1]}" for row in res]
+    return result_strings
+
+@anvil.server.callable
+def get_all_jugendherbergen():
+    conn = sqlite3.connect(data_files['jugendherberge.db'])
+    cursor = conn.cursor()
+    
+    query = "SELECT JugendherbergeID, Name FROM Jugendherberge"
+    cursor.execute(query)
+    res = cursor.fetchall()
+    
+    conn.close()
+    
+    return [(row[1], row[0]) for row in res]  # Gibt eine Liste von Tupeln (Name, ID) zurück

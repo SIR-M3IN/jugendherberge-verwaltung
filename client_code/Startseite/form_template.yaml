@@ -1,5 +1,10 @@
 components:
 - components:
+  - event_bindings: {change: jugendherberge_drop_down_change}
+    layout_properties: {width: 739.2222290039062}
+    name: jugendherberge_drop_down
+    properties: {}
+    type: DropDown
   - layout_properties: {width: 297.2913129882813}
     name: Benutzer_DropDown
     properties: {align: full}
@@ -18,6 +23,14 @@ components:
     name: room_drop_down
     properties: {align: full}
     type: DropDown
+  - event_bindings: {click: button_1_click}
+    name: button_1
+    properties: {text: Buchen}
+    type: Button
+  - layout_properties: {width: 836.5972060546875}
+    name: buchungen_drop_down
+    properties: {}
+    type: DropDown
   layout_properties: {slot: nav-right}
   name: navbar_links
   properties: {}
@@ -26,15 +39,6 @@ components:
   name: label_2
   properties: {text: Startseite Jugendherberge}
   type: Label
-- event_bindings: {click: button_1_click}
-  layout_properties: {slot: default}
-  name: button_1
-  properties: {text: Buchen}
-  type: Button
-- layout_properties: {slot: left-nav}
-  name: buchungen_drop_down
-  properties: {}
-  type: DropDown
 container:
   properties: {html: '@theme:standard-page.html'}
   type: HtmlTemplate

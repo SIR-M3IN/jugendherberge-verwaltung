@@ -10,13 +10,19 @@ class Startseite(StartseiteTemplate):
   def __init__(self, **properties):
     self.init_components(**properties)
     self.Benutzer_DropDown.items = anvil.server.call('get_all_users')
+    self.jugendherberge_drop_down.items = anvil.server.call('get_all_jugendherbergen')
+    self.buchungen_drop_down.items = anvil.server.call('get_all_bookings')
     selected_user = self.Benutzer_DropDown.selected_value
     self.room_drop_down.items = anvil.server.call('get_zimmer_with_preisklasse', selected_user)
-    self.buchungen_drop_down.items = anvil.server.call('get_all_bookings')
-  
+
   def Benutzer_DropDown_change(self, **event_args):
     selected_user = self.Benutzer_DropDown.selected_value
     self.room_drop_down.items = anvil.server.call('get_zimmer_with_preisklasse', selected_user)
+
+  def jugendherberge_drop_down_change(self, **event_args):
+    selected_jugendherberge = self.jugendherberge_drop_down.selected_value
+
+    self.room_drop_down.items = anvil.server.call('get_zimmer_by_jugendherberge', selected_jugendherberge)
 
   def button_1_click(self, **event_args):
     selected_user = self.Benutzer_DropDown.selected_value  
