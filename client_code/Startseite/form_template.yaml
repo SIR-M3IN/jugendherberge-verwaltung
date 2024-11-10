@@ -1,19 +1,20 @@
 components:
 - components:
-  - event_bindings: {change: Benutzer_DropDown_change}
-    layout_properties: {width: 297.2913129882813}
+  - layout_properties: {width: 297.2913129882813}
     name: Benutzer_DropDown
     properties: {align: full}
     type: DropDown
-  - layout_properties: {width: 161.33331298828125}
+  - event_bindings: {change: start_date_picker_change}
+    layout_properties: {width: 161.33331298828125}
     name: start_date_picker
     properties: {align: left}
     type: DatePicker
-  - layout_properties: {width: 141.333251953125}
+  - event_bindings: {change: end_date_picker_change}
+    layout_properties: {width: 141.333251953125}
     name: end_date_picker
     properties: {align: left}
     type: DatePicker
-  - layout_properties: {width: 626.000251953125}
+  - layout_properties: {width: 742.8333740234375}
     name: room_drop_down
     properties: {align: full}
     type: DropDown
@@ -25,10 +26,15 @@ components:
   name: label_2
   properties: {text: Startseite Jugendherberge}
   type: Label
-- layout_properties: {slot: default}
+- event_bindings: {click: button_1_click}
+  layout_properties: {slot: default}
   name: button_1
   properties: {text: Buchen}
   type: Button
+- layout_properties: {slot: left-nav}
+  name: buchungen_drop_down
+  properties: {}
+  type: DropDown
 container:
   properties: {html: '@theme:standard-page.html'}
   type: HtmlTemplate

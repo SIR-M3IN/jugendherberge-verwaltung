@@ -8,6 +8,9 @@ unique_ids:
     Startseite.RowTemplate1: '1729073614575181545006632.51193'
     Startseite.RowTemplate2: '1731234031325347131929813.4452'
     Startseite.RowTemplate3: '173123407519023169218229.142086'
+    Startseite.RowTemplate4: '1731237885572912741240181.8613'
+    Startseite.RowTemplate5: '173123790546722979167068.130524'
+    Startseite.RowTemplate6: '173123791946023534984406.901714'
   modules: {}
   scripts: {}
   server_modules:
